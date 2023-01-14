@@ -1,15 +1,13 @@
 import React, { FC } from 'react';
-import { Header } from '../Header/Header';
-import { UsersList } from '../UsersList/UsersList';
+// import { Header } from '../Header/Header';
+// import { UsersList } from '../UsersList/UsersList';
 
 export const UsersPage: FC = () => {
   return (
     <>
-      <Header />
+      {/*<Header />*/}
       <main>
-        <div className="container">
-          <UsersList />
-        </div>
+        <div className="container">{/*<UsersList user={} />*/}</div>
       </main>
     </>
   );

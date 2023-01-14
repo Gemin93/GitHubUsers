@@ -48,5 +48,6 @@ module.exports = {
       overlay: false,
     },
     open: true,
+    historyApiFallback: true,
   },
 };

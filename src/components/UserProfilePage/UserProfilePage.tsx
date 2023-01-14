@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import './UserProfilePage.css';
-import { Header } from '../Header/Header';
+// import { Header } from '../Header/Header';
 
 export const UserProfilePage: FC = () => {
   return (
     <>
-      <Header />
+      {/*<Header />*/}
 
       <main>
         <div className="container">
