@@ -1,16 +1,24 @@
 import React, { FC } from 'react';
 import './UsersList.css';
-import { UsersSearch } from '../../types';
+import { UsersData, UsersSearch } from '../../types';
 
-interface Prop {
+export interface Prop {
   user: UsersSearch;
+  select: string;
+  onSelect: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const UsersList: FC<Prop> = ({ user }) => {
+export const UsersList: FC<Prop> = ({ user, select, onSelect }) => {
   return (
     <div className="users-list">
-      {user.items.map((item) => (
-        <section className="users-list__item" key={item.id}>
+      {user.items.slice(0, 9).map((item) => (
+        <section
+          className="users-list__item"
+          key={item.id}
+          onClick={() => {
+            onSelect(item.login);
+          }}
+        >
           <div className="users-list__image-container">
             <img className="users-list__image" src={item.avatar} alt="defunkt profile photo" />
           </div>

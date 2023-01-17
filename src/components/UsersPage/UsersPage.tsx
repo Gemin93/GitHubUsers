@@ -1,13 +1,20 @@
 import React, { FC } from 'react';
-// import { Header } from '../Header/Header';
-// import { UsersList } from '../UsersList/UsersList';
+import { UsersData, UsersSearch } from '../../types';
+import { UsersList } from '../UsersList/UsersList';
 
-export const UsersPage: FC = () => {
+export interface Prop {
+  user: UsersSearch;
+  select: string;
+  onSelect: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const UsersPage: FC<Prop> = ({ user, select, onSelect }) => {
   return (
     <>
-      {/*<Header />*/}
       <main>
-        <div className="container">{/*<UsersList user={} />*/}</div>
+        <div className="container">
+          <UsersList user={user} select={select} onSelect={onSelect} />
+        </div>
       </main>
     </>
   );

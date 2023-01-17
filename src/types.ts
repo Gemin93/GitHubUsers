@@ -5,4 +5,6 @@ export interface UsersData {
   id: number;
   login: string;
   avatar: string;
+  followers?: number;
+  repos?: number;
 }

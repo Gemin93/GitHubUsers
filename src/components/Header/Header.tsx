@@ -1,16 +1,21 @@
 import React, { FC, FormEvent, useState } from 'react';
 import './Header.css';
+import { UsersSearch } from '../../types';
 
-export const Header: FC = () => {
-  const [searchValue, setSearchValue] = useState('');
+export interface Props {
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  onClick: (event: React.MouseEvent<HTMLElement>) => void;
+}
+
+export const Header: FC<Props> = ({ search, setSearch, onClick }) => {
+  // const [searchValue, setSearchValue] = useState('');
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!searchValue.trim().length) {
+    if (!search.trim().length) {
       return;
     }
-
-    console.log(searchValue);
   };
 
   return (
@@ -35,10 +40,10 @@ export const Header: FC = () => {
               type="search"
               className="header__search-input"
               placeholder="Поиск пользователя"
-              value={searchValue}
-              onChange={(event) => setSearchValue(event.currentTarget.value)}
+              value={search}
+              onChange={(event) => setSearch(event.currentTarget.value)}
             />
-            <button type="submit" className="header__search-button">
+            <button type="submit" className="header__search-button" onClick={onClick}>
               Найти
             </button>
           </form>
