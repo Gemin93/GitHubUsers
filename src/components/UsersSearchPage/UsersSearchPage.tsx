@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { UsersList } from '../UsersList/UsersList';
-import { UsersData, UsersSearch } from '../../types';
+import { UsersSearch } from '../../types';
 
 export interface Prop {
   user: UsersSearch;
@@ -11,7 +11,6 @@ export interface Prop {
 export const UsersSearchPage: FC<Prop> = ({ user, select, onSelect }) => {
   return (
     <>
-      {/*<Header />*/}
       <main>
         <div className="container">
           <h1 className="title">Пользователи по запросу defunkt</h1>

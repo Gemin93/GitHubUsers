@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { UsersData, UsersSearch } from '../../types';
+import { UsersSearch } from '../../types';
 import { UsersList } from '../UsersList/UsersList';
 
 export interface Prop {
