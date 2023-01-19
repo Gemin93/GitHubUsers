@@ -4,11 +4,34 @@ import { UsersPage } from '../UsersPage/UsersPage';
 import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
 import { Header } from '../Header/Header';
 import { Route, Switch } from 'react-router-dom';
-import { GithubUser, API_KEY, UserRepoDetails } from '../../types';
+import { GithubUser, API_KEY, UserRepoDetails, GithubUserSearch } from '../../types';
 
 export const App: FC = () => {
-  const [users, setUsers] = useState<GithubUser[]>([]);
-  const [randomUsers, setRandomUsers] = useState<GithubUser[]>([]);
+  const [users, setUsers] = useState<GithubUser>({
+    id: 0,
+    login: '',
+    name: '',
+    avatar_url: '',
+    followers: 0,
+    public_repos: 0,
+    company: '',
+    following: 0,
+    blog: '',
+  });
+  const [userFull, setUserFull] = useState<GithubUser[]>([]);
+  const [userSearch, setUserSearch] = useState<GithubUser[]>([
+    {
+      id: 0,
+      login: '',
+      name: '',
+      avatar_url: '',
+      followers: 0,
+      public_repos: 0,
+      company: '',
+      following: 0,
+      blog: '',
+    },
+  ]);
 
   const [usersDetails, setUsersDetails] = useState<GithubUser>({
     id: 0,
@@ -25,27 +48,14 @@ export const App: FC = () => {
 
   const [search, setSearch] = useState('gemin');
   const [searchTerm, setSearchTerm] = useState('defunct');
+
   const [selectedUser, setSelectedUser] = useState('');
 
   const onSearchClick = () => {
     setSearchTerm(search);
   };
 
-  //загрузка пользователей для страницы поиска
-  useEffect(() => {
-    console.log('sync search');
-    fetch(`https://api.github.com/search/users?q=${searchTerm}`, {
-      headers: {
-        Accept: 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((response: GithubUser[]) => {
-        setUsers(response);
-      });
-  }, [searchTerm]);
-
-  // загрузка случайных пользователей
+  // загрузка  пользователей
   useEffect(() => {
     console.log('sync users');
     fetch('https://api.github.com/users', {
@@ -55,19 +65,42 @@ export const App: FC = () => {
       },
     })
       .then((response) => response.json())
-      .then((response: GithubUser[]) => {
-        setRandomUsers(response);
+      .then((response: GithubUser) => {
+        setUsers(response);
+        console.log(response);
+        // console.log(typeof response);
+        // Object.values(response).map((value) => {
+        //   fetch(`https://api.github.com/users/${value.login}`, {
+        //     headers: {
+        //       Accept: 'application/json',
+        //       Authorization: `Bearer ${API_KEY}`,
+        //     },
+        //   })
+        //     .then((response) => response.json())
+        //     .then((response: GithubUser) => {
+        //       setUsers(response);
+        //     });
+        // });
       });
-    // fetch(`https://api.github.com/users/${randomUser.login}`, {
-    //   headers: {
-    //     Accept: 'application/json',
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((response) => {
-    //     setRandomUserDetail(response);
-    //   });
   }, []);
+  // setUserFull([...userFull, users]);
+  // console.log(userFull);
+
+  // загрузка пользователей для страницы поиска
+  useEffect(() => {
+    console.log('sync search');
+    fetch(`https://api.github.com/search/users?q=${searchTerm}`, {
+      headers: {
+        Accept: 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        const searchedUser: GithubUserSearch = response;
+        setUserSearch(searchedUser.items);
+        console.log(searchedUser.items);
+      });
+  }, [searchTerm]);
 
   // загрузка инфрмации о конкретном пользователе
   useEffect(() => {
@@ -107,10 +140,10 @@ export const App: FC = () => {
           <UsersSearchPage users={users} select={selectedUser} onSelect={setSelectedUser} />
         </Route>
         <Route path="/users">
-          <UsersPage users={randomUsers} select={selectedUser} onSelect={setSelectedUser} />
+          <UsersPage users={users} select={selectedUser} onSelect={setSelectedUser} />
         </Route>
         <Route path="/">
-          <UsersPage users={randomUsers} select={selectedUser} onSelect={setSelectedUser} />
+          <UsersPage users={users} select={selectedUser} onSelect={setSelectedUser} />
         </Route>
         {/*Настроить редирект на / */}
         {/*<Route path="*">*/}

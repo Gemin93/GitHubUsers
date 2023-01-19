@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { GithubUser } from '../../types';
+import { GithubUser, GithubUserSearch } from '../../types';
 import { UsersList } from '../UsersList/UsersList';
 
 export interface Prop {
-  users: GithubUser[];
+  users: GithubUser;
   select: string;
   onSelect: React.Dispatch<React.SetStateAction<string>>;
 }

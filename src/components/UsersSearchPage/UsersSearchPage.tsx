@@ -3,7 +3,7 @@ import { UsersList } from '../UsersList/UsersList';
 import { GithubUser } from '../../types';
 
 export interface Prop {
-  users: GithubUser[];
+  users: GithubUser;
   select: string;
   onSelect: React.Dispatch<React.SetStateAction<string>>;
 }
