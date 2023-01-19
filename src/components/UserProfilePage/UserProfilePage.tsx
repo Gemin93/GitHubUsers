@@ -1,12 +1,21 @@
 import React, { FC } from 'react';
 import './UserProfilePage.css';
-import { UsersDetails } from '../../types';
+import { GithubUser, UserRepoDetails } from '../../types';
 
 export interface Props {
-  details: UsersDetails;
+  details: GithubUser;
+  reposDetails: UserRepoDetails[];
 }
 
-export const UserProfilePage: FC<Props> = ({ details }) => {
+export const UserProfilePage: FC<Props> = ({ details, reposDetails }) => {
+  console.log(typeof reposDetails);
+  console.log(
+    Object.values(reposDetails)
+      .slice(0, 3)
+      .map((value) => {
+        value.name;
+      })
+  );
   return (
     <>
       <main>
@@ -22,7 +31,7 @@ export const UserProfilePage: FC<Props> = ({ details }) => {
               <p className="user-profile__text">
                 <span className="user-profile__accent">{details.followers}</span> followers ·{' '}
                 <span className="user-profile__accent">{details.following}</span> following ·{' '}
-                <a href="http://chriswanstrath.com/" className="link">
+                <a rel="noreferrer" href={`${details.blog}`} className="link" target="_blank">
                   {details.blog}
                 </a>
               </p>
@@ -43,16 +52,18 @@ export const UserProfilePage: FC<Props> = ({ details }) => {
             </div>
 
             <div className="repository-list__container">
-              {[1, 2, 3, 4, 5].map((item) => (
-                <section className="repository-list__item" key={item}>
-                  <h3 className="repository-list__item-title">
-                    <a href="/" className="link">
-                      body_matcher
-                    </a>
-                  </h3>
-                  <p className="repository-list__item-text">Simplify your view testing. Forget assert_select.</p>
-                </section>
-              ))}
+              {Object.values(reposDetails)
+                .slice(0, 5)
+                .map((value, index) => (
+                  <section className="repository-list__item" key={index}>
+                    <h3 className="repository-list__item-title">
+                      <a rel="noreferrer" href={`${value.html_url}`} className="link" target="_blank">
+                        {value.name}
+                      </a>
+                    </h3>
+                    <p className="repository-list__item-text">{value.description}</p>
+                  </section>
+                ))}
             </div>
           </section>
         </div>

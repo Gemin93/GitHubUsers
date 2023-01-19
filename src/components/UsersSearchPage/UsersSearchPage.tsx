@@ -1,20 +1,20 @@
 import React, { FC } from 'react';
 import { UsersList } from '../UsersList/UsersList';
-import { UsersSearch } from '../../types';
+import { GithubUser } from '../../types';
 
 export interface Prop {
-  user: UsersSearch;
+  users: GithubUser[];
   select: string;
   onSelect: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const UsersSearchPage: FC<Prop> = ({ user, select, onSelect }) => {
+export const UsersSearchPage: FC<Prop> = ({ users, select, onSelect }) => {
   return (
     <>
       <main>
         <div className="container">
           <h1 className="title">Пользователи по запросу defunkt</h1>
-          <UsersList user={user} select={select} onSelect={onSelect} />
+          <UsersList users={users} select={select} onSelect={onSelect} />
         </div>
       </main>
     </>
