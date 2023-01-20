@@ -8,6 +8,7 @@ export interface GithubUser {
   company?: string;
   public_repos: number;
   blog?: string;
+  url: string;
 }
 export interface GithubUserSearch {
   items: GithubUser[];

@@ -8,14 +8,6 @@ export interface Props {
 }
 
 export const UserProfilePage: FC<Props> = ({ details, reposDetails }) => {
-  console.log(typeof reposDetails);
-  console.log(
-    Object.values(reposDetails)
-      .slice(0, 3)
-      .map((value) => {
-        value.name;
-      })
-  );
   return (
     <>
       <main>

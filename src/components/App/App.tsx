@@ -17,8 +17,10 @@ export const App: FC = () => {
     company: '',
     following: 0,
     blog: '',
+    url: '',
   });
   const [userFull, setUserFull] = useState<GithubUser[]>([]);
+
   const [userSearch, setUserSearch] = useState<GithubUser[]>([
     {
       id: 0,
@@ -30,6 +32,7 @@ export const App: FC = () => {
       company: '',
       following: 0,
       blog: '',
+      url: '',
     },
   ]);
 
@@ -43,6 +46,7 @@ export const App: FC = () => {
     company: '',
     following: 0,
     blog: '',
+    url: '',
   });
   const [userRepos, setUserRepos] = useState<UserRepoDetails[]>([]);
 
@@ -67,8 +71,10 @@ export const App: FC = () => {
       .then((response) => response.json())
       .then((response: GithubUser) => {
         setUsers(response);
-        console.log(response);
-        // console.log(typeof response);
+        const arrUrl: string[] = Object.values(response).map((value) => {
+          return value.url;
+        });
+        console.log(arrUrl);
         // Object.values(response).map((value) => {
         //   fetch(`https://api.github.com/users/${value.login}`, {
         //     headers: {
@@ -78,29 +84,40 @@ export const App: FC = () => {
         //   })
         //     .then((response) => response.json())
         //     .then((response: GithubUser) => {
-        //       setUsers(response);
+        //       setUserFull([...userFull, response]);
+        //       // setUserFull([...userFull, response]); // здесь уже ответ типа {user1 и его данные}, {user2 и его данные}, ..
         //     });
         // });
       });
   }, []);
-  // setUserFull([...userFull, users]);
-  // console.log(userFull);
+
+  //второй запрос который выдаёт 30 отдельных объектов
+  // fetch(`https://api.github.com/users/${value.login}`, {
+  //   headers: {
+  //     Accept: 'application/json',
+  //     Authorization: `Bearer ${API_KEY}`,
+  //   },
+  // })
+  //   .then((response) => response.json())
+  //   .then((response: GithubUser) => {
+  //     setUsers(response);
+  //   })
 
   // загрузка пользователей для страницы поиска
-  useEffect(() => {
-    console.log('sync search');
-    fetch(`https://api.github.com/search/users?q=${searchTerm}`, {
-      headers: {
-        Accept: 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        const searchedUser: GithubUserSearch = response;
-        setUserSearch(searchedUser.items);
-        console.log(searchedUser.items);
-      });
-  }, [searchTerm]);
+  // useEffect(() => {
+  //   console.log('sync search');
+  //   fetch(`https://api.github.com/search/users?q=${searchTerm}`, {
+  //     headers: {
+  //       Accept: 'application/json',
+  //     },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       const searchedUser: GithubUserSearch = response;
+  //       setUserSearch(searchedUser.items);
+  //       console.log(searchedUser.items);
+  //     });
+  // }, [searchTerm]);
 
   // загрузка инфрмации о конкретном пользователе
   useEffect(() => {
@@ -137,13 +154,13 @@ export const App: FC = () => {
           <UserProfilePage details={usersDetails} reposDetails={userRepos} />
         </Route>
         <Route path="/search?query=:id">
-          <UsersSearchPage users={users} select={selectedUser} onSelect={setSelectedUser} />
+          <UsersSearchPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
         </Route>
         <Route path="/users">
-          <UsersPage users={users} select={selectedUser} onSelect={setSelectedUser} />
+          <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
         </Route>
         <Route path="/">
-          <UsersPage users={users} select={selectedUser} onSelect={setSelectedUser} />
+          <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
         </Route>
         {/*Настроить редирект на / */}
         {/*<Route path="*">*/}
