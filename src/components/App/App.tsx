@@ -23,14 +23,13 @@ export const App: FC = () => {
   });
   const [userRepos, setUserRepos] = useState<UserRepoDetails[]>([]);
 
-  const [search, setSearch] = useState<string>('');
-  const [searchTerm, setSearchTerm] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>('gemin');
 
   const [selectedUser, setSelectedUser] = useState('');
 
-  const onSearchClick = () => {
-    setSearchTerm(search);
-  };
+  // const onSearchClick = () => {
+  //   setSearchTerm(searchTerm);
+  // };
 
   // загрузка  пользователей
   useEffect(() => {
@@ -62,38 +61,39 @@ export const App: FC = () => {
     console.log('sync users');
   }, []);
 
+  console.log(searchTerm);
+
   // загрузка пользователей для страницы поиска
   useEffect(() => {
-    searchTerm &&
-      searchTerm.length > 0 &&
-      fetch(`https://api.github.com/search/users?q=${searchTerm}`, {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${API_KEY}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          const arrLogin: string[] = response.items.map((value: { login: string }) => {
-            return value.login;
-          });
-
-          const arrFetchUsers = arrLogin.map((login) =>
-            fetch(`https://api.github.com/users/${login}`, {
-              headers: {
-                Accept: 'application/json',
-                Authorization: `Bearer ${API_KEY}`,
-              },
-            }).then((response) => response.json())
-          );
-
-          Promise.all(arrFetchUsers).then((responses) => {
-            const userInfo: GithubUser[] = responses;
-            setUserFull(userInfo);
-          });
+    fetch(`https://api.github.com/search/users?q=${searchTerm}`, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        const arrLogin: string[] = response.items.map((value: { login: string }) => {
+          return value.login;
         });
+        console.log(arrLogin);
+
+        const arrFetchUsers = arrLogin.map((login) =>
+          fetch(`https://api.github.com/users/${login}`, {
+            headers: {
+              Accept: 'application/json',
+              Authorization: `Bearer ${API_KEY}`,
+            },
+          }).then((response) => response.json())
+        );
+
+        Promise.all(arrFetchUsers).then((responses) => {
+          const userInfo: GithubUser[] = responses;
+          setUserFull(userInfo);
+        });
+      });
     console.log('sync search');
-  }, [searchTerm, search]);
+  }, [searchTerm]);
 
   // загрузка инфрмации о конкретном пользователе
   useEffect(() => {
@@ -124,21 +124,26 @@ export const App: FC = () => {
 
   return (
     <>
-      <Header search={search} setSearch={setSearch} onClick={onSearchClick} />
+      <Header
+        value={searchTerm}
+        onSearch={(value: string) => {
+          setSearchTerm(value);
+        }}
+      />
       <Switch>
         <Route path="/users/:id" exact>
           <UserProfilePage details={usersDetails} reposDetails={userRepos} />
         </Route>
-        <Route path="/search?query=:id" exact>
+        <Route path="/" exact>
           <UsersSearchPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
         </Route>
-        <Route path="/users" exact>
-          <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
-        </Route>
-        <Route path="/" exact>
-          <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
-        </Route>
-        {/*Настроить редирект на / */}
+        {/*<Route path="/users" exact>*/}
+        {/*  <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />*/}
+        {/*</Route>*/}
+        {/*<Route path="/" exact>*/}
+        {/*  <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />*/}
+        {/*</Route>*/}
+        {/*/!*Настроить редирект на / *!/*/}
         {/*<Route path="*">*/}
         {/*  <UsersPage />*/}
         {/*</Route>*/}

@@ -1,14 +1,20 @@
-import React, { FC, FormEvent } from 'react';
+import React, { FC, FormEvent, useState } from 'react';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export interface Props {
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-  onClick: (event: React.MouseEvent<HTMLElement>) => void;
+  value: string;
+  // onSearch: (event: React.MouseEvent<HTMLElement>) => void;
+  onSearch: (fixedValue: string) => void;
+
+  //работало когда стейты были в App
+  // search: string;
+  // setSearch: React.Dispatch<React.SetStateAction<string>>;
+  // onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-export const Header: FC<Props> = ({ search, setSearch, onClick }) => {
+export const Header: FC<Props> = ({ value, onSearch }) => {
+  const [search, setSearch] = useState<string>(value);
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -23,7 +29,7 @@ export const Header: FC<Props> = ({ search, setSearch, onClick }) => {
         <nav className="header__navigation">
           <ul className="header__navigation-list">
             <li className="header__navigation-list-item">
-              <Link to={'/users'} className="header__navigation-link">
+              <Link to={'/'} className="header__navigation-link">
                 Пользователи гитхаба
               </Link>
             </li>
@@ -42,8 +48,14 @@ export const Header: FC<Props> = ({ search, setSearch, onClick }) => {
               value={search}
               onChange={(event) => setSearch(event.currentTarget.value)}
             />
-            <Link to={`/search?query=${search}`}>
-              <button type="submit" className="header__search-button" onClick={onClick}>
+            <Link to={`/`}>
+              <button
+                type="submit"
+                className="header__search-button"
+                onClick={() => {
+                  onSearch(search);
+                }}
+              >
                 Найти
               </button>
             </Link>
