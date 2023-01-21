@@ -9,7 +9,6 @@ export interface Props {
 }
 
 export const Header: FC<Props> = ({ search, setSearch, onClick }) => {
-  // const [searchValue, setSearchValue] = useState('');
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -24,7 +23,7 @@ export const Header: FC<Props> = ({ search, setSearch, onClick }) => {
         <nav className="header__navigation">
           <ul className="header__navigation-list">
             <li className="header__navigation-list-item">
-              <Link to={'/users/'} className="header__navigation-link">
+              <Link to={'/users'} className="header__navigation-link">
                 Пользователи гитхаба
               </Link>
             </li>
@@ -34,22 +33,22 @@ export const Header: FC<Props> = ({ search, setSearch, onClick }) => {
           </ul>
         </nav>
 
-        <Link to={`/search?query=${search}`}>
-          <div className="header__search">
-            <form className="header__search-form" onSubmit={onSubmit}>
-              <input
-                type="search"
-                className="header__search-input"
-                placeholder="Поиск пользователя"
-                value={search}
-                onChange={(event) => setSearch(event.currentTarget.value)}
-              />
+        <div className="header__search">
+          <form className="header__search-form" onSubmit={onSubmit}>
+            <input
+              type="search"
+              className="header__search-input"
+              placeholder="Поиск пользователя"
+              value={search}
+              onChange={(event) => setSearch(event.currentTarget.value)}
+            />
+            <Link to={`/search?query=${search}`}>
               <button type="submit" className="header__search-button" onClick={onClick}>
                 Найти
               </button>
-            </form>
-          </div>
-        </Link>
+            </Link>
+          </form>
+        </div>
       </div>
     </header>
   );

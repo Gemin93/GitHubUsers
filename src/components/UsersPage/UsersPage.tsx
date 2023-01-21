@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { GithubUser, GithubUserSearch } from '../../types';
+import { GithubUser } from '../../types';
 import { UsersList } from '../UsersList/UsersList';
 
 export interface Prop {
