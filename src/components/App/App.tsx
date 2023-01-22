@@ -3,7 +3,7 @@ import { UserProfilePage } from '../UserProfilePage/UserProfilePage';
 import { UsersPage } from '../UsersPage/UsersPage';
 import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
 import { Header } from '../Header/Header';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import { GithubUser, API_KEY, UserRepoDetails } from '../../types';
 
 export const App: FC = () => {
@@ -128,7 +128,7 @@ export const App: FC = () => {
         <Route path="/users/:id" exact>
           <UserProfilePage details={usersDetails} reposDetails={userRepos} />
         </Route>
-        <Route path="/search?query=:id " exact>
+        <Route path="/search">
           <UsersSearchPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
         </Route>
         <Route path="/users" exact>
@@ -145,3 +145,7 @@ export const App: FC = () => {
     </>
   );
 };
+
+// eslint-disable-next-line react/prop-types,@typescript-eslint/ban-ts-comment
+// @ts-ignore
+// eslint-disable-next-line react/prop-types

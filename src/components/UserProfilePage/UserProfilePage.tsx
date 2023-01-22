@@ -9,7 +9,6 @@ export interface Props {
 }
 
 export const UserProfilePage: FC<Props> = ({ details, reposDetails }) => {
-  console.log(useParams());
   const { id }: { id: string } = useParams();
   return (
     <>

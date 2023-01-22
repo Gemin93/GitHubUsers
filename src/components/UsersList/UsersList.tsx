@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import './UsersList.css';
 import { GithubUser } from '../../types';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export interface Prop {
   users: GithubUser[];

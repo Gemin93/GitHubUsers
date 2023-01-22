@@ -4,21 +4,15 @@ import { Link } from 'react-router-dom';
 
 export interface Props {
   value: string;
-  // onSearch: (event: React.MouseEvent<HTMLElement>) => void;
   onSearch: (fixedValue: string) => void;
-
-  //работало когда стейты были в App
-  // search: string;
-  // setSearch: React.Dispatch<React.SetStateAction<string>>;
-  // onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const Header: FC<Props> = ({ value, onSearch }) => {
-  const [search, setSearch] = useState<string>(value);
+  const [searchValue, setSearchValue] = useState<string>(value);
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!search.trim().length) {
+    if (!searchValue.trim().length) {
       return;
     }
   };
@@ -39,7 +33,7 @@ export const Header: FC<Props> = ({ value, onSearch }) => {
               </li>
             </Link>
             <li className="header__navigation-list-item">
-              <a className="header__navigation-link header__navigation-link--user">{search}</a>
+              <a className="header__navigation-link header__navigation-link--user">{searchValue}</a>
             </li>
           </ul>
         </nav>
@@ -50,15 +44,15 @@ export const Header: FC<Props> = ({ value, onSearch }) => {
               type="search"
               className="header__search-input"
               placeholder="Поиск пользователя"
-              value={search}
-              onChange={(event) => setSearch(event.currentTarget.value)}
+              value={searchValue}
+              onChange={(event) => setSearchValue(event.currentTarget.value)}
             />
-            <Link to={`/search?query=${search}`}>
+            <Link to={`/search?query=${searchValue}`}>
               <button
                 type="submit"
                 className="header__search-button"
                 onClick={() => {
-                  onSearch(search);
+                  onSearch(searchValue);
                 }}
               >
                 Найти
