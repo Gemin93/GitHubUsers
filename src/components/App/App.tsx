@@ -23,14 +23,9 @@ export const App: FC = () => {
   });
   const [userRepos, setUserRepos] = useState<UserRepoDetails[]>([]);
 
-  const [searchTerm, setSearchTerm] = useState<string>('gemin');
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const [selectedUser, setSelectedUser] = useState('');
-
-  // const onSearchClick = () => {
-  //   setSearchTerm(searchTerm);
-  // };
-
   // загрузка  пользователей
   useEffect(() => {
     fetch('https://api.github.com/users', {
@@ -59,39 +54,38 @@ export const App: FC = () => {
         });
       });
     console.log('sync users');
-  }, []);
-
-  console.log(searchTerm);
+  }, [searchTerm]);
 
   // загрузка пользователей для страницы поиска
   useEffect(() => {
-    fetch(`https://api.github.com/search/users?q=${searchTerm}`, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        const arrLogin: string[] = response.items.map((value: { login: string }) => {
-          return value.login;
-        });
-        console.log(arrLogin);
+    searchTerm !== '' &&
+      fetch(`https://api.github.com/search/users?q=${searchTerm}`, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${API_KEY}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          const arrLogin: string[] = response.items.map((value: { login: string }) => {
+            return value.login;
+          });
+          console.log(arrLogin);
 
-        const arrFetchUsers = arrLogin.map((login) =>
-          fetch(`https://api.github.com/users/${login}`, {
-            headers: {
-              Accept: 'application/json',
-              Authorization: `Bearer ${API_KEY}`,
-            },
-          }).then((response) => response.json())
-        );
+          const arrFetchUsers = arrLogin.map((login) =>
+            fetch(`https://api.github.com/users/${login}`, {
+              headers: {
+                Accept: 'application/json',
+                Authorization: `Bearer ${API_KEY}`,
+              },
+            }).then((response) => response.json())
+          );
 
-        Promise.all(arrFetchUsers).then((responses) => {
-          const userInfo: GithubUser[] = responses;
-          setUserFull(userInfo);
+          Promise.all(arrFetchUsers).then((responses) => {
+            const userInfo: GithubUser[] = responses;
+            setUserFull(userInfo);
+          });
         });
-      });
     console.log('sync search');
   }, [searchTerm]);
 
@@ -134,15 +128,15 @@ export const App: FC = () => {
         <Route path="/users/:id" exact>
           <UserProfilePage details={usersDetails} reposDetails={userRepos} />
         </Route>
-        <Route path="/" exact>
+        <Route path="/search?query=:id " exact>
           <UsersSearchPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
         </Route>
-        {/*<Route path="/users" exact>*/}
-        {/*  <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />*/}
-        {/*</Route>*/}
-        {/*<Route path="/" exact>*/}
-        {/*  <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />*/}
-        {/*</Route>*/}
+        <Route path="/users" exact>
+          <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
+        </Route>
+        <Route path="/" exact>
+          <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
+        </Route>
         {/*/!*Настроить редирект на / *!/*/}
         {/*<Route path="*">*/}
         {/*  <UsersPage />*/}

@@ -9,6 +9,7 @@ export interface Prop {
 }
 
 export const UsersPage: FC<Prop> = ({ users, select, onSelect }) => {
+  console.log(select);
   return (
     <>
       <main>

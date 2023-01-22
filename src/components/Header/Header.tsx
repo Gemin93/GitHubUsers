@@ -1,6 +1,6 @@
 import React, { FC, FormEvent, useState } from 'react';
 import './Header.css';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export interface Props {
   value: string;
@@ -28,11 +28,16 @@ export const Header: FC<Props> = ({ value, onSearch }) => {
       <div className="container header__container">
         <nav className="header__navigation">
           <ul className="header__navigation-list">
-            <li className="header__navigation-list-item">
-              <Link to={'/'} className="header__navigation-link">
-                Пользователи гитхаба
-              </Link>
-            </li>
+            <Link to={'/'}>
+              <li
+                className="header__navigation-list-item"
+                onClick={() => {
+                  onSearch('');
+                }}
+              >
+                <span className="header__navigation-link">Пользователи гитхаба</span>
+              </li>
+            </Link>
             <li className="header__navigation-list-item">
               <a className="header__navigation-link header__navigation-link--user">{search}</a>
             </li>
@@ -48,7 +53,7 @@ export const Header: FC<Props> = ({ value, onSearch }) => {
               value={search}
               onChange={(event) => setSearch(event.currentTarget.value)}
             />
-            <Link to={`/`}>
+            <Link to={`/search?query=${search}`}>
               <button
                 type="submit"
                 className="header__search-button"

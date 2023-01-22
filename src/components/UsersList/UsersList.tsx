@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import './UsersList.css';
 import { GithubUser } from '../../types';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export interface Prop {
   users: GithubUser[];
@@ -23,7 +23,7 @@ export const UsersList: FC<Prop> = ({ users, select, onSelect }) => {
               }}
             >
               <div className="users-list__image-container">
-                <img className="users-list__image" src={values.avatar_url} alt="defunkt profile photo" />
+                <img className="users-list__image" src={values.avatar_url} alt={`${values.login} profile photo`} />
               </div>
               <div className="users-list__content">
                 <h2 className="users-list__title">

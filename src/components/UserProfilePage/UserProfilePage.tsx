@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import './UserProfilePage.css';
 import { GithubUser, UserRepoDetails } from '../../types';
+import { useParams } from 'react-router-dom';
 
 export interface Props {
   details: GithubUser;
@@ -8,17 +9,20 @@ export interface Props {
 }
 
 export const UserProfilePage: FC<Props> = ({ details, reposDetails }) => {
+  console.log(useParams());
+  const { id }: { id: string } = useParams();
   return (
     <>
       <main>
         <div className="container">
           <section className="user-profile">
             <div className="user-profile__image-container">
-              <img className="user-profile__image" src={details.avatar_url} alt={`${details.login} profile photo`} />
+              {/*вместо id было details.login*/}
+              <img className="user-profile__image" src={details.avatar_url} alt={`${id} profile photo`} />
             </div>
             <div className="user-profile__content">
               <h1 className="user-profile__title">
-                {details.name}, <span className="user-profile__accent">{details.login}</span>
+                {details.name}, <span className="user-profile__accent">{id}</span>
               </h1>
               <p className="user-profile__text">
                 <span className="user-profile__accent">{details.followers}</span> followers ·{' '}
@@ -33,12 +37,7 @@ export const UserProfilePage: FC<Props> = ({ details, reposDetails }) => {
           <section className="repository-list">
             <div className="repository-list__header">
               <h2 className="repository-list__title">Репозитории</h2>
-              <a
-                rel="noreferrer"
-                href={`https://github.com/${details.login}?tab=repositories`}
-                className="link"
-                target="_blank"
-              >
+              <a rel="noreferrer" href={`https://github.com/${id}?tab=repositories`} className="link" target="_blank">
                 Все репозитории
               </a>
             </div>

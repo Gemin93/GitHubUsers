@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useParams } from 'react-router-dom';
 import { UsersList } from '../UsersList/UsersList';
 import { GithubUser } from '../../types';
 
