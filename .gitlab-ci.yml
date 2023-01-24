@@ -22,9 +22,10 @@ build:
     - npm ci
   script:
     - npm run build
+    - cp -r dist/. public
   artifacts:
     paths:
-      - dist
+      - public
   only:
     - main
 #deploy:
