@@ -24,7 +24,7 @@ build:
     - npm run build
   artifacts:
     paths:
-      - dist/
+      - dist/.
   only:
     - main
 
