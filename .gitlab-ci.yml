@@ -1,0 +1,36 @@
+stages:
+  - test
+  - build
+  - deploy
+
+code_quality:
+  image: node:16.12.0
+  stage: test
+  before_script:
+    - npm ci
+  script:
+    - npm run eslint
+    - npm run stylelint
+    - npm run  prettier-check
+  only:
+    - main
+
+build:
+  image: node:16.12.0
+  stage: build
+  before_script:
+    - npm ci
+  script:
+    - npm run build
+  only:
+    - main
+#deploy:
+#  image: alpine.latest
+#  stage: deploy
+#  before_script:
+#    - npm ci
+#  script:
+#    - npm run build
+#  only:
+#    - merge_requests
+#    - main

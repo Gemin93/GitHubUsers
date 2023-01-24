@@ -3,7 +3,7 @@ import { UserProfilePage } from '../UserProfilePage/UserProfilePage';
 import { UsersPage } from '../UsersPage/UsersPage';
 import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
 import { Header } from '../Header/Header';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { GithubUser, API_KEY, UserRepoDetails } from '../../types';
 
 export const App: FC = () => {
@@ -129,13 +129,13 @@ export const App: FC = () => {
           <UserProfilePage details={usersDetails} reposDetails={userRepos} />
         </Route>
         <Route path="/search">
-          <UsersSearchPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
+          <UsersSearchPage users={userFull} onSelect={setSelectedUser} />
         </Route>
         <Route path="/users" exact>
-          <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
+          <UsersPage users={userFull} onSelect={setSelectedUser} />
         </Route>
         <Route path="/" exact>
-          <UsersPage users={userFull} select={selectedUser} onSelect={setSelectedUser} />
+          <UsersPage users={userFull} onSelect={setSelectedUser} />
         </Route>
         {/*/!*Настроить редирект на / *!/*/}
         {/*<Route path="*">*/}

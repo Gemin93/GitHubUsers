@@ -5,11 +5,10 @@ import { Link } from 'react-router-dom';
 
 export interface Prop {
   users: GithubUser[];
-  select: string;
   onSelect: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const UsersList: FC<Prop> = ({ users, select, onSelect }) => {
+export const UsersList: FC<Prop> = ({ users, onSelect }) => {
   return (
     <div className="users-list">
       {Object.values(users)
