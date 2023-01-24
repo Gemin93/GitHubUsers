@@ -29,7 +29,7 @@ build:
     - main
 
 deploy:
-  image: alpine.latest
+  image: alpine:latest
   stage: deploy
   before_script:
     - apk update && apk add rsync openssh
