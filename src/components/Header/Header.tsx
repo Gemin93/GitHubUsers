@@ -1,17 +1,11 @@
-import React, { FC, FormEvent, useEffect, useState } from 'react';
+import React, { FC, FormEvent, useState } from 'react';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-export interface Props {
-  value: string;
-  selectUser: string;
-  onSearch: (fixedValue: string) => void;
-  onSelect: (fixedValue: string) => void;
-}
-
-export const Header: FC<Props> = ({ value, selectUser, onSearch, onSelect }) => {
-  const [searchValue, setSearchValue] = useState<string>(value);
-  const [selectUserInHeader, setSelectUserInHeader] = useState<string>(selectUser);
+export const Header: FC = () => {
+  const location = useLocation();
+  const arrPathname = location.pathname.split('/');
+  const [searchValue, setSearchValue] = useState<string>('');
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -19,12 +13,6 @@ export const Header: FC<Props> = ({ value, selectUser, onSearch, onSelect }) => 
       return;
     }
   };
-
-  // сброс строки поиска, когда нажимаем на кнопку пользователи гитхаба
-  useEffect(() => {
-    setSearchValue(value);
-    setSelectUserInHeader(selectUser);
-  }, [value, selectUser]);
 
   return (
     <header className="header">
@@ -35,8 +23,7 @@ export const Header: FC<Props> = ({ value, selectUser, onSearch, onSelect }) => 
               <li
                 className="header__navigation-list-item"
                 onClick={() => {
-                  onSearch('');
-                  onSelect('');
+                  setSearchValue('');
                 }}
               >
                 <span className="header__navigation-link">Пользователи гитхаба</span>
@@ -44,7 +31,7 @@ export const Header: FC<Props> = ({ value, selectUser, onSearch, onSelect }) => 
             </Link>
             <li className="header__navigation-list-item">
               <a className="header__navigation-link header__navigation-link--user">
-                {value ? 'Поиск' : selectUserInHeader}
+                {location.pathname === '/search' ? 'Поиск' : arrPathname[2]}
               </a>
             </li>
           </ul>
@@ -60,15 +47,7 @@ export const Header: FC<Props> = ({ value, selectUser, onSearch, onSelect }) => 
               onChange={(event) => setSearchValue(event.currentTarget.value)}
             />
             <Link to={`/search?query=${searchValue}`}>
-              <button
-                type="submit"
-                className="header__search-button"
-                onClick={(event) => {
-                  //хотелось бы здесь вывести подсказку что если строка пустая - то кнопка не нажмётся
-                  //оставлю как тех долг :)
-                  searchValue == '' ? event.preventDefault() : onSearch(searchValue);
-                }}
-              >
+              <button type="submit" className="header__search-button">
                 Найти
               </button>
             </Link>

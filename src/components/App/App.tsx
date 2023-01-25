@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { UserProfilePage } from '../UserProfilePage/UserProfilePage';
 import { UsersPage } from '../UsersPage/UsersPage';
 import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
@@ -6,25 +6,21 @@ import { Header } from '../Header/Header';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 export const App: FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
-
-  const [selectedUser, setSelectedUser] = useState('');
-
   return (
     <>
-      <Header value={searchTerm} selectUser={selectedUser} onSearch={setSearchTerm} onSelect={setSelectedUser} />
+      <Header />
       <Switch>
         <Route path="/users/:id" exact>
           <UserProfilePage />
         </Route>
         <Route path="/search">
-          <UsersSearchPage onSelect={setSelectedUser} />
+          <UsersSearchPage />
         </Route>
         <Route path="/users" exact>
-          <UsersPage onSelect={setSelectedUser} />
+          <UsersPage />
         </Route>
         <Route path="/" exact>
-          <UsersPage onSelect={setSelectedUser} />
+          <UsersPage />
         </Route>
         <Route path="*">
           <Redirect to="/" />

@@ -3,15 +3,10 @@ import { UsersList } from '../UsersList/UsersList';
 import { API_KEY, GithubUser } from '../../types';
 import { useLocation } from 'react-router-dom';
 
-export interface Prop {
-  onSelect: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export const UsersSearchPage: FC<Prop> = ({ onSelect }) => {
+export const UsersSearchPage: FC = () => {
   const [userFull, setUserFull] = useState<GithubUser[]>([]);
   const location = useLocation();
   const query = new URLSearchParams(location.search).get('query');
-  console.log(query);
 
   // загрузка пользователей для страницы поиска
   useEffect(() => {
@@ -52,7 +47,7 @@ export const UsersSearchPage: FC<Prop> = ({ onSelect }) => {
         <main>
           <div className="container">
             <h1 className="title">ПОЛЬЗОВАТЕЛИ ПО ЗАПРОСУ {query}</h1>
-            <UsersList users={userFull} onSelect={onSelect} />
+            <UsersList users={userFull} />
           </div>
         </main>
       ) : (

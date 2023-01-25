@@ -3,13 +3,9 @@ import { API_KEY, GithubUser } from '../../types';
 import { UsersList } from '../UsersList/UsersList';
 import { useLocation } from 'react-router-dom';
 
-export interface Prop {
-  onSelect: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export const UsersPage: FC<Prop> = ({ onSelect }) => {
+export const UsersPage: FC = () => {
   const location = useLocation();
-  console.log(location.pathname);
+
   // загрузка  пользователей
   const [userFull, setUserFull] = useState<GithubUser[]>([]);
   useEffect(() => {
@@ -49,7 +45,7 @@ export const UsersPage: FC<Prop> = ({ onSelect }) => {
     <>
       <main>
         <div className="container">
-          <UsersList users={userFull} onSelect={onSelect} />
+          <UsersList users={userFull} />
         </div>
       </main>
     </>
