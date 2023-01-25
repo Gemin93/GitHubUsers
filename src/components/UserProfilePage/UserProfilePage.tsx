@@ -16,7 +16,6 @@ export const UserProfilePage: FC<Props> = ({ details, reposDetails }) => {
         <div className="container">
           <section className="user-profile">
             <div className="user-profile__image-container">
-              {/*вместо id было details.login*/}
               <img className="user-profile__image" src={details.avatar_url} alt={`${id} profile photo`} />
             </div>
             <div className="user-profile__content">
@@ -43,7 +42,7 @@ export const UserProfilePage: FC<Props> = ({ details, reposDetails }) => {
 
             <div className="repository-list__container">
               {Object.values(reposDetails)
-                .slice(0, 5)
+                .slice(0, 6)
                 .map((value, index) => (
                   <section className="repository-list__item" key={index}>
                     <h3 className="repository-list__item-title">

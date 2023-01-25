@@ -4,18 +4,31 @@ import { GithubUser } from '../../types';
 
 export interface Prop {
   users: GithubUser[];
+  searchValue: string;
   onSelect: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const UsersSearchPage: FC<Prop> = ({ users, onSelect }) => {
+export const UsersSearchPage: FC<Prop> = ({ users, searchValue, onSelect }) => {
+  console.log(users);
   return (
     <>
-      <main>
-        <div className="container">
-          <h1 className="title">Пользователи по запросу defunkt</h1>
-          <UsersList users={users} onSelect={onSelect} />
-        </div>
-      </main>
+      {users.length ? (
+        <main>
+          <div className="container">
+            <h1 className="title">ПОЛЬЗОВАТЕЛИ ПО ЗАПРОСУ {searchValue}</h1>
+            <UsersList users={users} onSelect={onSelect} />
+          </div>
+        </main>
+      ) : (
+        <main>
+          <div className="container">
+            <h1 className="title">НИЧЕГО НЕ НАЙДЕНО ПО ЗАПРОСУ {searchValue}</h1>
+          </div>
+        </main>
+      )}
     </>
   );
 };
+// (<div className="container">
+//   <h1 className="title">Ничего не найдено по запросу {searchValue} </h1>
+// </div>)

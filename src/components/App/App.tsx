@@ -3,7 +3,7 @@ import { UserProfilePage } from '../UserProfilePage/UserProfilePage';
 import { UsersPage } from '../UsersPage/UsersPage';
 import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
 import { Header } from '../Header/Header';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { GithubUser, API_KEY, UserRepoDetails } from '../../types';
 
 export const App: FC = () => {
@@ -70,7 +70,6 @@ export const App: FC = () => {
           const arrLogin: string[] = response.items.map((value: { login: string }) => {
             return value.login;
           });
-          console.log(arrLogin);
 
           const arrFetchUsers = arrLogin.map((login) =>
             fetch(`https://api.github.com/users/${login}`, {
@@ -115,21 +114,17 @@ export const App: FC = () => {
         });
     }
   }, [selectedUser]);
+  console.log(selectedUser);
 
   return (
     <>
-      <Header
-        value={searchTerm}
-        onSearch={(value: string) => {
-          setSearchTerm(value);
-        }}
-      />
+      <Header value={searchTerm} selectUser={selectedUser} onSearch={setSearchTerm} onSelect={setSelectedUser} />
       <Switch>
         <Route path="/users/:id" exact>
           <UserProfilePage details={usersDetails} reposDetails={userRepos} />
         </Route>
         <Route path="/search">
-          <UsersSearchPage users={userFull} onSelect={setSelectedUser} />
+          <UsersSearchPage users={userFull} searchValue={searchTerm} onSelect={setSelectedUser} />
         </Route>
         <Route path="/users" exact>
           <UsersPage users={userFull} onSelect={setSelectedUser} />
@@ -137,10 +132,9 @@ export const App: FC = () => {
         <Route path="/" exact>
           <UsersPage users={userFull} onSelect={setSelectedUser} />
         </Route>
-        {/*/!*Настроить редирект на / *!/*/}
-        {/*<Route path="*">*/}
-        {/*  <UsersPage />*/}
-        {/*</Route>*/}
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
       </Switch>
     </>
   );
