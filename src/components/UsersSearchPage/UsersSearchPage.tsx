@@ -29,6 +29,3 @@ export const UsersSearchPage: FC<Prop> = ({ users, searchValue, onSelect }) => {
     </>
   );
 };
-// (<div className="container">
-//   <h1 className="title">Ничего не найдено по запросу {searchValue} </h1>
-// </div>)

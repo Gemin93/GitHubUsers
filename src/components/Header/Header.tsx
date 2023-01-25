@@ -11,6 +11,7 @@ export interface Props {
 
 export const Header: FC<Props> = ({ value, selectUser, onSearch, onSelect }) => {
   const [searchValue, setSearchValue] = useState<string>(value);
+  const [selectUserInHeader, setSelectUserInHeader] = useState<string>(selectUser);
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -22,7 +23,8 @@ export const Header: FC<Props> = ({ value, selectUser, onSearch, onSelect }) => 
   // сброс строки поиска, когда нажимаем на кнопку пользователи гитхаба
   useEffect(() => {
     setSearchValue(value);
-  }, [value]);
+    setSelectUserInHeader(selectUser);
+  }, [value, selectUser]);
 
   return (
     <header className="header">
@@ -41,7 +43,9 @@ export const Header: FC<Props> = ({ value, selectUser, onSearch, onSelect }) => 
               </li>
             </Link>
             <li className="header__navigation-list-item">
-              <a className="header__navigation-link header__navigation-link--user">{value ? 'Поиск' : selectUser}</a>
+              <a className="header__navigation-link header__navigation-link--user">
+                {value ? 'Поиск' : selectUserInHeader}
+              </a>
             </li>
           </ul>
         </nav>

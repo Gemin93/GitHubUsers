@@ -4,24 +4,10 @@ import { UsersPage } from '../UsersPage/UsersPage';
 import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
 import { Header } from '../Header/Header';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { GithubUser, API_KEY, UserRepoDetails } from '../../types';
+import { GithubUser, API_KEY } from '../../types';
 
 export const App: FC = () => {
   const [userFull, setUserFull] = useState<GithubUser[]>([]);
-
-  const [usersDetails, setUsersDetails] = useState<GithubUser>({
-    id: 0,
-    login: '',
-    name: '',
-    avatar_url: '',
-    followers: 0,
-    public_repos: 0,
-    company: '',
-    following: 0,
-    blog: '',
-    url: '',
-  });
-  const [userRepos, setUserRepos] = useState<UserRepoDetails[]>([]);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -36,9 +22,11 @@ export const App: FC = () => {
     })
       .then((response) => response.json())
       .then((response: GithubUser) => {
+        // собираю логины полученных пользователей
         const arrLogin: string[] = Object.values(response).map((value) => {
           return value.login;
         });
+        //массив запросов для каждого пользователя для уточнения
         const arrFetchUsers = arrLogin.map((login) =>
           fetch(`https://api.github.com/users/${login}`, {
             headers: {
@@ -67,10 +55,11 @@ export const App: FC = () => {
       })
         .then((response) => response.json())
         .then((response) => {
+          // собираю логины полученных пользователей
           const arrLogin: string[] = response.items.map((value: { login: string }) => {
             return value.login;
           });
-
+          //массив запросов для каждого пользователя для уточнения
           const arrFetchUsers = arrLogin.map((login) =>
             fetch(`https://api.github.com/users/${login}`, {
               headers: {
@@ -88,40 +77,12 @@ export const App: FC = () => {
     console.log('sync search');
   }, [searchTerm]);
 
-  // загрузка инфрмации о конкретном пользователе
-  useEffect(() => {
-    if (selectedUser) {
-      // запрос общей информации
-      fetch(`https://api.github.com/users/${selectedUser}`, {
-        headers: {
-          Accept: 'application/json',
-        },
-      })
-        .then((response) => response.json())
-        .then((response: GithubUser) => {
-          setUsersDetails(response);
-        });
-
-      // запрос информации о репозитории
-      fetch(`https://api.github.com/users/${selectedUser}/repos`, {
-        headers: {
-          Accept: 'application/json',
-        },
-      })
-        .then((response) => response.json())
-        .then((response: UserRepoDetails[]) => {
-          setUserRepos(response);
-        });
-    }
-  }, [selectedUser]);
-  console.log(selectedUser);
-
   return (
     <>
       <Header value={searchTerm} selectUser={selectedUser} onSearch={setSearchTerm} onSelect={setSelectedUser} />
       <Switch>
         <Route path="/users/:id" exact>
-          <UserProfilePage details={usersDetails} reposDetails={userRepos} />
+          <UserProfilePage />
         </Route>
         <Route path="/search">
           <UsersSearchPage users={userFull} searchValue={searchTerm} onSelect={setSelectedUser} />
@@ -139,7 +100,3 @@ export const App: FC = () => {
     </>
   );
 };
-
-// eslint-disable-next-line react/prop-types,@typescript-eslint/ban-ts-comment
-// @ts-ignore
-// eslint-disable-next-line react/prop-types

@@ -1,32 +1,68 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './UserProfilePage.css';
 import { GithubUser, UserRepoDetails } from '../../types';
 import { useParams } from 'react-router-dom';
 
-export interface Props {
-  details: GithubUser;
-  reposDetails: UserRepoDetails[];
-}
-
-export const UserProfilePage: FC<Props> = ({ details, reposDetails }) => {
+export const UserProfilePage: FC = () => {
   const { id }: { id: string } = useParams();
+  const [usersDetails, setUsersDetails] = useState<GithubUser>({
+    id: 0,
+    login: '',
+    name: '',
+    avatar_url: '',
+    followers: 0,
+    public_repos: 0,
+    company: '',
+    following: 0,
+    blog: '',
+    url: '',
+  });
+  const [userRepos, setUserRepos] = useState<UserRepoDetails[]>([]);
+
+  // загрузка инфрмации о конкретном пользователе
+  useEffect(() => {
+    if (id) {
+      // запрос общей информации
+      fetch(`https://api.github.com/users/${id}`, {
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((response: GithubUser) => {
+          setUsersDetails(response);
+        });
+
+      // запрос информации о репозитории
+      fetch(`https://api.github.com/users/${id}/repos`, {
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((response: UserRepoDetails[]) => {
+          setUserRepos(response);
+        });
+    }
+  }, [id]);
+
   return (
     <>
       <main>
         <div className="container">
           <section className="user-profile">
             <div className="user-profile__image-container">
-              <img className="user-profile__image" src={details.avatar_url} alt={`${id} profile photo`} />
+              <img className="user-profile__image" src={usersDetails.avatar_url} alt={`${id} profile photo`} />
             </div>
             <div className="user-profile__content">
               <h1 className="user-profile__title">
-                {details.name}, <span className="user-profile__accent">{id}</span>
+                {usersDetails.name}, <span className="user-profile__accent">{id}</span>
               </h1>
               <p className="user-profile__text">
-                <span className="user-profile__accent">{details.followers}</span> followers ·{' '}
-                <span className="user-profile__accent">{details.following}</span> following ·{' '}
-                <a rel="noreferrer" href={`${details.blog}`} className="link" target="_blank">
-                  {details.blog}
+                <span className="user-profile__accent">{usersDetails.followers}</span> followers ·{' '}
+                <span className="user-profile__accent">{usersDetails.following}</span> following ·{' '}
+                <a rel="noreferrer" href={`${usersDetails.blog}`} className="link" target="_blank">
+                  {usersDetails.blog}
                 </a>
               </p>
             </div>
@@ -41,7 +77,7 @@ export const UserProfilePage: FC<Props> = ({ details, reposDetails }) => {
             </div>
 
             <div className="repository-list__container">
-              {Object.values(reposDetails)
+              {Object.values(userRepos)
                 .slice(0, 6)
                 .map((value, index) => (
                   <section className="repository-list__item" key={index}>
