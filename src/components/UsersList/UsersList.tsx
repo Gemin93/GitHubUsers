@@ -7,6 +7,30 @@ export interface Prop {
   users: GithubUser[];
 }
 
+const reposFormat = (num: number, word: string) => {
+  const rem = num % 10;
+  let ending = '';
+  if (num === 0) {
+    word = 'РЕПОЗИТОРИЕВ НЕТ';
+    return word;
+  }
+  if (num >= 11 && num <= 20) {
+    word = 'РЕПОЗИТОРИЕВ';
+    return word;
+  }
+  if (rem === 1) {
+    ending = 'й';
+  }
+  if (rem >= 2 && rem <= 4) {
+    ending = 'я';
+  }
+  if (rem >= 5 && rem <= 9) {
+    ending = 'ев';
+  }
+  return word + ending;
+};
+
+console.log(reposFormat(0, 'репозитори'));
 export const UsersList: FC<Prop> = ({ users }) => {
   return (
     <div className="users-list">
@@ -21,7 +45,10 @@ export const UsersList: FC<Prop> = ({ users }) => {
                 <a href="/" className="link">
                   {values.login}
                 </a>
-                , {values.public_repos} репозиториев
+                ,{' '}
+                {values.public_repos === 0
+                  ? reposFormat(values.public_repos, 'репозитори')
+                  : values.public_repos + ' ' + reposFormat(values.public_repos, 'репозитори')}
               </h2>
               <p className="users-list__text">{values.company}</p>
             </div>
