@@ -19,18 +19,17 @@ const reposFormat = (num: number, word: string) => {
     return word;
   }
   if (rem === 1) {
-    ending = 'й';
+    ending = 'Й';
   }
   if (rem >= 2 && rem <= 4) {
-    ending = 'я';
+    ending = 'Я';
   }
   if (rem >= 5 && rem <= 9) {
-    ending = 'ев';
+    ending = 'ЕВ';
   }
   return word + ending;
 };
 
-console.log(reposFormat(0, 'репозитори'));
 export const UsersList: FC<Prop> = ({ users }) => {
   return (
     <div className="users-list">
@@ -48,7 +47,7 @@ export const UsersList: FC<Prop> = ({ users }) => {
                 ,{' '}
                 {values.public_repos === 0
                   ? reposFormat(values.public_repos, 'репозитори')
-                  : values.public_repos + ' ' + reposFormat(values.public_repos, 'репозитори')}
+                  : values.public_repos + ' ' + reposFormat(values.public_repos, 'РЕПОЗИТОРИ')}
               </h2>
               <p className="users-list__text">{values.company}</p>
             </div>

@@ -3,6 +3,53 @@ import './UserProfilePage.css';
 import { GithubUser, UserRepoDetails } from '../../types';
 import { useParams } from 'react-router-dom';
 
+// склонение подписчиков
+const followersFormat = (num: number, word: string) => {
+  const rem = num % 10;
+  let ending = '';
+  if (num === 0) {
+    word = 'ПОДПИСЧИКОВ НЕТ';
+    return word;
+  }
+  if (num >= 11 && num <= 20) {
+    word = 'ПОДПИСЧИКОВ';
+    return word;
+  }
+  if (rem === 1) {
+    ending = '';
+  }
+  if (rem >= 2 && rem <= 4) {
+    ending = 'А';
+  }
+  if ((rem >= 5 && rem <= 9) || rem === 0) {
+    ending = 'ОВ';
+  }
+  return word + ending;
+};
+// склонение подписок
+const followingFormat = (num: number, word: string) => {
+  const rem = num % 10;
+  let ending = '';
+  if (num === 0) {
+    word = 'ПОДПИСОК НЕТ';
+    return word;
+  }
+  if (num >= 11 && num <= 20) {
+    word = 'ПОДПИСОК';
+    return word;
+  }
+  if (rem === 1) {
+    ending = 'КА';
+  }
+  if (rem >= 2 && rem <= 4) {
+    ending = 'КИ';
+  }
+  if ((rem >= 5 && rem <= 9) || rem === 0) {
+    ending = 'ОК';
+  }
+  return word + ending;
+};
+
 export const UserProfilePage: FC = () => {
   const { id }: { id: string } = useParams();
   const [usersDetails, setUsersDetails] = useState<GithubUser>({
@@ -59,8 +106,18 @@ export const UserProfilePage: FC = () => {
                 {usersDetails.name}, <span className="user-profile__accent">{id}</span>
               </h1>
               <p className="user-profile__text">
-                <span className="user-profile__accent">{usersDetails.followers}</span> followers ·{' '}
-                <span className="user-profile__accent">{usersDetails.following}</span> following ·{' '}
+                <span className="user-profile__accent">
+                  {usersDetails.followers === 0
+                    ? followersFormat(0, '')
+                    : usersDetails.followers + ' ' + followersFormat(usersDetails.followers, 'ПОДПИСЧИК')}
+                </span>{' '}
+                ·{' '}
+                <span className="user-profile__accent">
+                  {usersDetails.following === 0
+                    ? followingFormat(0, '')
+                    : usersDetails.following + ' ' + followingFormat(usersDetails.following, 'ПОДПИС')}
+                </span>{' '}
+                ·{' '}
                 <a rel="noreferrer" href={`${usersDetails.blog}`} className="link" target="_blank">
                   {usersDetails.blog}
                 </a>
