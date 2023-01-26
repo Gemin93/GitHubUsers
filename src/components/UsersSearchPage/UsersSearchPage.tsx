@@ -4,12 +4,14 @@ import { API_KEY, GithubUser } from '../../types';
 import { useLocation } from 'react-router-dom';
 
 export const UsersSearchPage: FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [userFull, setUserFull] = useState<GithubUser[]>([]);
   const location = useLocation();
   const query = new URLSearchParams(location.search).get('query');
 
   // загрузка пользователей для страницы поиска
   useEffect(() => {
+    setIsLoading(true);
     query !== '' &&
       fetch(`https://api.github.com/search/users?q=${query}`, {
         headers: {
@@ -33,21 +35,31 @@ export const UsersSearchPage: FC = () => {
             }).then((response) => response.json())
           );
 
-          Promise.all(arrFetchUsers).then((responses) => {
-            const userInfo: GithubUser[] = responses;
-            setUserFull(userInfo);
-          });
+          Promise.all(arrFetchUsers)
+            .then((responses) => {
+              const userInfo: GithubUser[] = responses;
+              setUserFull(userInfo);
+            })
+            .finally(() => {
+              setIsLoading(false);
+            });
         });
-    console.log('sync search');
   }, [query]);
 
   return (
     <>
-      {userFull.length ? (
+      {isLoading ? (
         <main>
           <div className="container">
             <h1 className="title">ПОЛЬЗОВАТЕЛИ ПО ЗАПРОСУ {query}</h1>
-            <UsersList users={userFull} />
+            <UsersList users={userFull} isLoading={isLoading} />
+          </div>
+        </main>
+      ) : userFull.length ? (
+        <main>
+          <div className="container">
+            <h1 className="title">ПОЛЬЗОВАТЕЛИ ПО ЗАПРОСУ {query}</h1>
+            <UsersList users={userFull} isLoading={isLoading} />
           </div>
         </main>
       ) : (

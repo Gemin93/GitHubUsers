@@ -1,0 +1,78 @@
+.skeleton {
+  display: flex;
+  flex-direction: column;
+}
+
+.skeleton-user {
+  display: flex;
+  align-items: start;
+}
+
+.skeleton-profile {
+  margin-bottom: 2em;
+  display: flex;
+  align-items: end;
+}
+
+.skeleton-profile-avatar {
+  background: #7a7878;
+  animation: mymove 3s ease infinite;
+  height: 147px;
+  width: 147px;
+  border-radius: 50%;
+}
+
+.skeleton-profile-name {
+  background: #7a7878;
+  animation: mymove 3s ease infinite;
+  height: 45px;
+  width: 600px;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+.skeleton-profile-company {
+  background: #7a7878;
+  animation: mymove 3s ease infinite;
+  height: 45px;
+  width: 600px;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+.skeleton-repository__header {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.skeleton-repository__container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.skeleton-repository__item {
+  background: #7a7878;
+  animation: mymove 3s ease infinite;
+  width: 527px;
+  height: 78px;
+  border-radius: 8px;
+}
+
+@keyframes mymove {
+  0% {
+    background-color: #7a7878;
+  }
+
+  50% {
+    background-color: #515152;
+  }
+
+  100% {
+    background-color: #7a7878;
+  }
+}

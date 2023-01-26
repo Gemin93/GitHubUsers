@@ -1,0 +1,46 @@
+.skeleton-blog {
+  margin-bottom: 2em;
+  display: flex;
+}
+
+.skeleton-avatar {
+  background: #7a7878;
+  animation: mymove 3s ease infinite;
+  height: 64px;
+  width: 64px;
+  border-radius: 50%;
+}
+
+.skeleton-name {
+  background: #7a7878;
+  animation: mymove 3s ease infinite;
+  height: 23px;
+  width: 240px;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+.skeleton-company {
+  background: #7a7878;
+  animation: mymove 3s ease infinite;
+  height: 23px;
+  width: 170px;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+@keyframes mymove {
+  0% {
+    background-color: #7a7878;
+  }
+
+  50% {
+    background-color: #515152;
+  }
+
+  100% {
+    background-color: #7a7878;
+  }
+}

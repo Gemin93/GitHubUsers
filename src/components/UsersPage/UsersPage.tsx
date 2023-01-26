@@ -4,11 +4,13 @@ import { UsersList } from '../UsersList/UsersList';
 import { useLocation } from 'react-router-dom';
 
 export const UsersPage: FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
 
   // загрузка  пользователей
   const [userFull, setUserFull] = useState<GithubUser[]>([]);
   useEffect(() => {
+    setIsLoading(true);
     if (location.pathname === '/' || location.pathname === '/users') {
       fetch('https://api.github.com/users', {
         headers: {
@@ -32,20 +34,22 @@ export const UsersPage: FC = () => {
             }).then((response) => response.json())
           );
 
-          Promise.all(arrFetchUsers).then((responses) => {
-            const userInfo: GithubUser[] = responses;
-            setUserFull(userInfo);
-          });
+          Promise.all(arrFetchUsers)
+            .then((responses) => {
+              const userInfo: GithubUser[] = responses;
+              setUserFull(userInfo);
+            })
+            .finally(() => {
+              setIsLoading(false);
+            });
         });
     }
-
-    console.log('sync users');
   }, []);
   return (
     <>
       <main>
         <div className="container">
-          <UsersList users={userFull} />
+          <UsersList users={userFull} isLoading={isLoading} />
         </div>
       </main>
     </>

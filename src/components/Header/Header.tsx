@@ -47,7 +47,13 @@ export const Header: FC = () => {
               onChange={(event) => setSearchValue(event.currentTarget.value)}
             />
             <Link to={`/search?query=${searchValue}`}>
-              <button type="submit" className="header__search-button">
+              <button
+                type="submit"
+                className="header__search-button"
+                onClick={(event) => {
+                  searchValue === '' && event.preventDefault();
+                }}
+              >
                 Найти
               </button>
             </Link>

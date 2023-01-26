@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import './UserProfilePage.css';
+import { SkeletonProfilePage } from '../SkeletonProfilePage/SkeletonProfilePage';
 import { GithubUser, UserRepoDetails } from '../../types';
 import { useParams } from 'react-router-dom';
 
@@ -52,6 +53,7 @@ const followingFormat = (num: number, word: string) => {
 
 export const UserProfilePage: FC = () => {
   const { id }: { id: string } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
   const [usersDetails, setUsersDetails] = useState<GithubUser>({
     id: 0,
     login: '',
@@ -89,6 +91,9 @@ export const UserProfilePage: FC = () => {
         .then((response) => response.json())
         .then((response: UserRepoDetails[]) => {
           setUserRepos(response);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
   }, [id]);
@@ -97,57 +102,68 @@ export const UserProfilePage: FC = () => {
     <>
       <main>
         <div className="container">
-          <section className="user-profile">
-            <div className="user-profile__image-container">
-              <img className="user-profile__image" src={usersDetails.avatar_url} alt={`${id} profile photo`} />
-            </div>
-            <div className="user-profile__content">
-              <h1 className="user-profile__title">
-                {usersDetails.name}, <span className="user-profile__accent">{id}</span>
-              </h1>
-              <p className="user-profile__text">
-                <span className="user-profile__accent">
-                  {usersDetails.followers === 0
-                    ? followersFormat(0, '')
-                    : usersDetails.followers + ' ' + followersFormat(usersDetails.followers, 'ПОДПИСЧИК')}
-                </span>{' '}
-                ·{' '}
-                <span className="user-profile__accent">
-                  {usersDetails.following === 0
-                    ? followingFormat(0, '')
-                    : usersDetails.following + ' ' + followingFormat(usersDetails.following, 'ПОДПИС')}
-                </span>{' '}
-                ·{' '}
-                <a rel="noreferrer" href={`${usersDetails.blog}`} className="link" target="_blank">
-                  {usersDetails.blog}
-                </a>
-              </p>
-            </div>
-          </section>
+          {isLoading ? (
+            <SkeletonProfilePage />
+          ) : (
+            <div>
+              <section className="user-profile">
+                <div className="user-profile__image-container">
+                  <img className="user-profile__image" src={usersDetails.avatar_url} alt={`${id} profile photo`} />
+                </div>
+                <div className="user-profile__content">
+                  <h1 className="user-profile__title">
+                    {usersDetails.name}, <span className="user-profile__accent">{id}</span>
+                  </h1>
+                  <p className="user-profile__text">
+                    <span className="user-profile__accent">
+                      {usersDetails.followers === 0
+                        ? followersFormat(0, '')
+                        : usersDetails.followers + ' ' + followersFormat(usersDetails.followers, 'ПОДПИСЧИК')}
+                    </span>{' '}
+                    ·{' '}
+                    <span className="user-profile__accent">
+                      {usersDetails.following === 0
+                        ? followingFormat(0, '')
+                        : usersDetails.following + ' ' + followingFormat(usersDetails.following, 'ПОДПИС')}
+                    </span>{' '}
+                    ·{' '}
+                    <a rel="noreferrer" href={`${usersDetails.blog}`} className="link" target="_blank">
+                      {usersDetails.blog}
+                    </a>
+                  </p>
+                </div>
+              </section>
 
-          <section className="repository-list">
-            <div className="repository-list__header">
-              <h2 className="repository-list__title">Репозитории</h2>
-              <a rel="noreferrer" href={`https://github.com/${id}?tab=repositories`} className="link" target="_blank">
-                Все репозитории
-              </a>
-            </div>
+              <section className="repository-list">
+                <div className="repository-list__header">
+                  <h2 className="repository-list__title">Репозитории</h2>
+                  <a
+                    rel="noreferrer"
+                    href={`https://github.com/${id}?tab=repositories`}
+                    className="link"
+                    target="_blank"
+                  >
+                    Все репозитории
+                  </a>
+                </div>
 
-            <div className="repository-list__container">
-              {Object.values(userRepos)
-                .slice(0, 6)
-                .map((value, index) => (
-                  <section className="repository-list__item" key={index}>
-                    <h3 className="repository-list__item-title">
-                      <a rel="noreferrer" href={`${value.html_url}`} className="link" target="_blank">
-                        {value.name}
-                      </a>
-                    </h3>
-                    <p className="repository-list__item-text">{value.description}</p>
-                  </section>
-                ))}
+                <div className="repository-list__container">
+                  {Object.values(userRepos)
+                    .slice(0, 6)
+                    .map((value, index) => (
+                      <section className="repository-list__item" key={index}>
+                        <h3 className="repository-list__item-title">
+                          <a rel="noreferrer" href={`${value.html_url}`} className="link" target="_blank">
+                            {value.name}
+                          </a>
+                        </h3>
+                        <p className="repository-list__item-text">{value.description}</p>
+                      </section>
+                    ))}
+                </div>
+              </section>
             </div>
-          </section>
+          )}
         </div>
       </main>
     </>
