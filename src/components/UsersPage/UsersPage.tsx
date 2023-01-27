@@ -3,6 +3,11 @@ import { API_KEY, GithubUser } from '../../types';
 import { UsersList } from '../UsersList/UsersList';
 import { useLocation } from 'react-router-dom';
 
+const randomInteger = (min: number, max: number) => {
+  const rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
+};
+
 export const UsersPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
@@ -12,7 +17,7 @@ export const UsersPage: FC = () => {
   useEffect(() => {
     setIsLoading(true);
     if (location.pathname === '/' || location.pathname === '/users') {
-      fetch('https://api.github.com/users', {
+      fetch(`https://api.github.com/users?since=${randomInteger(1, 1000000)}`, {
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${API_KEY}`,
