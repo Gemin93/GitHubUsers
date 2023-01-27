@@ -51,6 +51,9 @@ export const Header: FC = () => {
                 type="submit"
                 className="header__search-button"
                 onClick={(event) => {
+                  // вот здесь хорошо бы добавить всплывающую подсказку
+                  // но я этого не сделал =)
+                  // блокирую кнопку если строка поиска пустая
                   searchValue === '' && event.preventDefault();
                 }}
               >
