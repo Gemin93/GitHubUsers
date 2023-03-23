@@ -22,4 +22,4 @@ export interface UsersRandom {
   login: string;
 }
 
-export const API_KEY = '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';
+export const API_KEY = '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';
