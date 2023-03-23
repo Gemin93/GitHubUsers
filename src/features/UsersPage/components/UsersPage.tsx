@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
-import { API_KEY, GithubUser } from '../../types';
-import { UsersList } from '../UsersList/UsersList';
+import { API_KEY, GithubUser } from '../../../types';
+import { UsersList } from '../../../components/UsersList/UsersList';
 import { useLocation } from 'react-router-dom';
 
 const randomInteger = (min: number, max: number) => {

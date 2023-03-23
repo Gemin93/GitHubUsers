@@ -9,9 +9,6 @@ export interface Prop {
   isLoading: boolean;
 }
 
-// const fakeArr = [...new Array(30)];
-// console.log(fakeArr);
-
 const reposFormat = (num: number, word: string) => {
   const rem = num % 10;
   let ending = '';

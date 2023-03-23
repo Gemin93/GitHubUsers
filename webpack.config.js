@@ -38,7 +38,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './src/app/index.html',
     }),
     new StyleWebpackPlugin({
       files: '{**/*,*}.css',
@@ -51,7 +51,10 @@ module.exports = {
     client: {
       overlay: false,
     },
+    hot: true,
     open: true,
-    historyApiFallback: true,
+    historyApiFallback: {
+      disableDotRule: true,
+    },
   },
 };

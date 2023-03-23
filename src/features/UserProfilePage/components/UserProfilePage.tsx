@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import './UserProfilePage.css';
-import { SkeletonProfilePage } from '../SkeletonProfilePage/SkeletonProfilePage';
-import { GithubUser, UserRepoDetails } from '../../types';
+import { SkeletonProfilePage } from '../../../components/SkeletonProfilePage/SkeletonProfilePage';
+import { GithubUser, UserRepoDetails } from '../../../types';
 import { useParams } from 'react-router-dom';
 
 // склонение подписчиков

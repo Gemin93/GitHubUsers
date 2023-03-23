@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
-import { UsersList } from '../UsersList/UsersList';
-import { API_KEY, GithubUser } from '../../types';
+import { UsersList } from '../../../components/UsersList/UsersList';
+import { API_KEY, GithubUser } from '../../../types';
 import { useLocation } from 'react-router-dom';
 
 export const UsersSearchPage: FC = () => {

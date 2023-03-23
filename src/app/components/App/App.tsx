@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { UserProfilePage } from '../UserProfilePage/UserProfilePage';
-import { UsersPage } from '../UsersPage/UsersPage';
-import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
-import { Header } from '../Header/Header';
+import { UserProfilePage } from '../../../features/UserProfilePage/components/UserProfilePage';
+import { UsersPage } from '../../../features/UsersPage/components/UsersPage';
+import { UsersSearchPage } from '../../../features/UsersSearchPage/components/UsersSearchPage';
+import { Header } from '../../../components/Header/Header';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 export const App: FC = () => {
