@@ -16,7 +16,7 @@ export const UsersSearchPage: FC = () => {
       fetch(`https://api.github.com/search/users?q=${query}`, {
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${process.env.API_KEY}`,
         },
       })
         .then((response) => response.json())
@@ -30,7 +30,7 @@ export const UsersSearchPage: FC = () => {
             fetch(`https://api.github.com/users/${login}`, {
               headers: {
                 Accept: 'application/json',
-                Authorization: `Bearer ${API_KEY}`,
+                Authorization: `Bearer ${process.env.API_KEY}`,
               },
             }).then((response) => response.json())
           );

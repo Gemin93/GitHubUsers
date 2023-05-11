@@ -20,7 +20,7 @@ export const UsersPage: FC = () => {
       fetch(`https://api.github.com/users?since=${randomInteger(1, 1000000)}`, {
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${process.env.API_KEY}`,
         },
       })
         .then((response) => response.json())
@@ -34,7 +34,7 @@ export const UsersPage: FC = () => {
             fetch(`https://api.github.com/users/${login}`, {
               headers: {
                 Accept: 'application/json',
-                Authorization: `Bearer ${API_KEY}`,
+                Authorization: `Bearer ${process.env.API_KEY}`,
               },
             }).then((response) => response.json())
           );
