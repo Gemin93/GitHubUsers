@@ -3,12 +3,12 @@ import { GithubUser } from '../../../types';
 import { UsersList } from '../../../components/UsersList/UsersList';
 import { useLocation } from 'react-router-dom';
 
-const authToken = process.env['API_KEY'];
-
 const randomInteger = (min: number, max: number) => {
   const rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
 };
+
+const authToken = process.env.API_KEY;
 
 export const UsersPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);

@@ -16,3 +16,5 @@ export interface UserRepoDetails {
   description: string;
   html_url: string;
 }
+
+export const API_KEY = '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';
