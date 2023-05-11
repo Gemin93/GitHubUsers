@@ -3,6 +3,8 @@ import { API_KEY, GithubUser } from '../../../types';
 import { UsersList } from '../../../components/UsersList/UsersList';
 import { useLocation } from 'react-router-dom';
 
+const authToken = process.env['API_KEY'];
+
 const randomInteger = (min: number, max: number) => {
   const rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
@@ -20,7 +22,7 @@ export const UsersPage: FC = () => {
       fetch(`https://api.github.com/users?since=${randomInteger(1, 1000000)}`, {
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${process.env.API_KEY}`,
+          Authorization: `Bearer ${authToken}`,
         },
       })
         .then((response) => response.json())
@@ -34,7 +36,7 @@ export const UsersPage: FC = () => {
             fetch(`https://api.github.com/users/${login}`, {
               headers: {
                 Accept: 'application/json',
-                Authorization: `Bearer ${process.env.API_KEY}`,
+                Authorization: `Bearer ${authToken}`,
               },
             }).then((response) => response.json())
           );

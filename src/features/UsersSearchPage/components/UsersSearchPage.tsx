@@ -3,6 +3,8 @@ import { UsersList } from '../../../components/UsersList/UsersList';
 import { API_KEY, GithubUser } from '../../../types';
 import { useLocation } from 'react-router-dom';
 
+const authToken = process.env['API_KEY'];
+
 export const UsersSearchPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userFull, setUserFull] = useState<GithubUser[]>([]);
@@ -16,7 +18,7 @@ export const UsersSearchPage: FC = () => {
       fetch(`https://api.github.com/search/users?q=${query}`, {
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${process.env.API_KEY}`,
+          Authorization: `Bearer ${authToken}`,
         },
       })
         .then((response) => response.json())
@@ -30,7 +32,7 @@ export const UsersSearchPage: FC = () => {
             fetch(`https://api.github.com/users/${login}`, {
               headers: {
                 Accept: 'application/json',
-                Authorization: `Bearer ${process.env.API_KEY}`,
+                Authorization: `Bearer ${authToken}`,
               },
             }).then((response) => response.json())
           );
