@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { UsersList } from '../../../components/UsersList/UsersList';
-import { API_KEY, GithubUser } from '../../../types';
+import { GithubUser } from '../../../types';
 import { useLocation } from 'react-router-dom';
 
 const authToken = process.env['API_KEY'];

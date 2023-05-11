@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { API_KEY, GithubUser } from '../../../types';
+import { GithubUser } from '../../../types';
 import { UsersList } from '../../../components/UsersList/UsersList';
 import { useLocation } from 'react-router-dom';
 
