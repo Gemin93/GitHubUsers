@@ -17,4 +17,4 @@ export interface UserRepoDetails {
   html_url: string;
 }
 
-export const API_KEY = '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';
+export const API_KEY = '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';
