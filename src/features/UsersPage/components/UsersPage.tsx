@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { GithubUser } from '../../../types';
+import { API_KEY, GithubUser } from '../../../types';
 import { UsersList } from '../../../components/UsersList/UsersList';
 import { useLocation } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ export const UsersPage: FC = () => {
       fetch(`https://api.github.com/users?since=${randomInteger(1, 1000000)}`, {
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken}`,
+          // Authorization: `Bearer ${API_KEY}`,
         },
       })
         .then((response) => response.json())
@@ -36,7 +36,7 @@ export const UsersPage: FC = () => {
             fetch(`https://api.github.com/users/${login}`, {
               headers: {
                 Accept: 'application/json',
-                Authorization: `Bearer ${authToken}`,
+                // Authorization: `Bearer ${API_KEY}`,
               },
             }).then((response) => response.json())
           );
