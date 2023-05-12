@@ -8,6 +8,9 @@ const randomInteger = (min: number, max: number) => {
   return Math.floor(rand);
 };
 
+//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
+//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
+
 const authToken = process.env.API_KEY;
 
 export const UsersPage: FC = () => {
@@ -22,7 +25,7 @@ export const UsersPage: FC = () => {
       fetch(`https://api.github.com/users?since=${randomInteger(1, 1000000)}`, {
         headers: {
           Accept: 'application/json',
-          // Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${authToken}`,
         },
       })
         .then((response) => response.json())
@@ -36,7 +39,7 @@ export const UsersPage: FC = () => {
             fetch(`https://api.github.com/users/${login}`, {
               headers: {
                 Accept: 'application/json',
-                // Authorization: `Bearer ${API_KEY}`,
+                Authorization: `Bearer ${authToken}`,
               },
             }).then((response) => response.json())
           );
